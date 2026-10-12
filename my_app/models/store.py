@@ -7,5 +7,6 @@ class Store(db.Model):
     nom = db.Column(db.String, nullable=False)
 
     # Relationship with back_populates
-    items = db.relationship("Item", back_populates="store", lazy="select") 
+    items = db.relationship("Item", back_populates="store", uselist=True, lazy="select") 
+    #uselist=True means that the relationship will be a list of items, not a single item
     #select means that the items will be loaded lazily when the items attribute is accessed, not when the store is loaded
