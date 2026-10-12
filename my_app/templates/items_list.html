@@ -9,12 +9,12 @@
 			<th>SUPERMERCAT</th>
 		</tr>
 
-		{% for (item, store) in items_with_stores %}
+		{% for item in items %}
 		<tr>
 			<td><a href="/items/read/{{ item.id }}">{{ item.id }}</a></td>
 			<td><a href="/items/read/{{ item.id }}">{{ item.nom }}</a></td>
 			<td><a href="/items/read/{{ item.id }}">{{ item.unitats }}</a></td>
-			<td><a href="/items/read/{{ item.id }}">{{ store.nom }}</a></td>
+			<td><a href="/items/read/{{ item.id }}">{{ item.store.nom }}</a></td>
 		</tr>
 		{% endfor %}
 	</table>

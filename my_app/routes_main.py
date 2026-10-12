@@ -34,15 +34,15 @@ def contact():
 @login_required
 @hr.require_view_permission.require(http_exception=403)
 def items_list():
-    # select amb join que retorna una llista de resultats
-    items_with_stores = db.session.query(Item, Store).join(Store).order_by(Item.id.asc()).all()
+    # select on no cal fer join explícitament, tenint en compte la relació definida a models/store.py
+    items = db.session.query(Item).order_by(Item.id.asc()).all()
     # depuració
-    count = len(items_with_stores)
+    count = len(items)
     current_app.logger.info(f"Hi ha {count} items a la BD")
     # missatges flash
     flash(f"Hi ha {count} items disponibles", "info")
     # mostrar pàgina
-    return render_template('items_list.html', items_with_stores = items_with_stores)
+    return render_template('items_list.html', items = items)
 
 @main_bp.route('/items/update/<int:item_id>',methods = ['POST', 'GET'])
 @login_required
@@ -102,10 +102,10 @@ def items_create():
 @login_required
 @hr.require_view_permission.require(http_exception=403)
 def items_read(item_id):
-    # select amb join i 1 resultat
-    (item, store) = db.session.query(Item, Store).join(Store).filter(Item.id == item_id).one()
+    # select amb un resultat i sense join explícitament, tenint en compte la relació definida a models/store.py
+    item = db.session.query(Item).filter(Item.id == item_id).one()
     
-    return render_template('items_read.html', item = item, store = store)
+    return render_template('items_read.html', item = item)
 
 @main_bp.route('/items/delete/<int:item_id>',methods = ['GET', 'POST'])
 @login_required
