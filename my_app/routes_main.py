@@ -37,19 +37,17 @@ def items_list():
     search = request.args.get('search')
     page = request.args.get('page', 1, type=int)
     per_page = 10 # Number of items per page
-    if search:
-        # Filter using query param
-        my_filter = Item.nom.like('%' + search + '%')
-        query = db.session.query(Item, Store).join(Store).filter(my_filter).order_by(Item.id.asc())
-    else:
-        # No filter
-        query = db.session.query(Item, Store).join(Store).order_by(Item.id.asc())
 
-    # paginació
-    items_with_stores = query.paginate(page=page, per_page=per_page)
+    query = db.session.query(Item)
+    if search:
+        # add a filter using provided search param
+        query = query.filter(Item.nom.like('%' + search + '%'))
+
+    # ordinació i paginació
+    items = query.order_by(Item.id.asc()).paginate(page=page, per_page=per_page)
 
     # mostrar pàgina
-    return render_template('items_list.html', items_with_stores = items_with_stores)
+    return render_template('items_list.html', items = items)
 
 @main_bp.route('/items/update/<int:item_id>',methods = ['POST', 'GET'])
 @login_required
@@ -109,10 +107,10 @@ def items_create():
 @login_required
 @hr.require_view_permission.require(http_exception=403)
 def items_read(item_id):
-    # select amb join i 1 resultat
-    (item, store) = db.session.query(Item, Store).join(Store).filter(Item.id == item_id).one()
+    # select amb un resultat i sense join explícitament, tenint en compte la relació definida a models/store.py
+    item = db.session.query(Item).filter(Item.id == item_id).one()
     
-    return render_template('items_read.html', item = item, store = store)
+    return render_template('items_read.html', item = item)
 
 @main_bp.route('/items/delete/<int:item_id>',methods = ['GET', 'POST'])
 @login_required
