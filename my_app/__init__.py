@@ -7,7 +7,7 @@ login_manager = LoginManager()
 principal_manager =  Principal()
 mail_manager = MailManager()
 
-def configure_db(app):
+def configure_plugins(app):
     # Inicialitza el login manager
     login_manager.init_app(app)
 
@@ -31,12 +31,6 @@ def create_app():
 
     # Configuració de la base de dades
     configure_db(app)
-
-    # Inicialitza el gestor de correu
-    mail_manager.init_app(app)
-
-    # Inicialitza el login manager
-    login_manager.init_app(app)
     
     with app.app_context():
         from . import routes_main, routes_auth, routes_admin
