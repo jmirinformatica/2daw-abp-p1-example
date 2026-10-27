@@ -5,7 +5,7 @@ from flask_principal import Principal
 login_manager = LoginManager()
 principal_manager =  Principal()
 
-def configure_db(app):
+def configure_plugins(app):
     # Inicialitza el login manager
     login_manager.init_app(app)
 
@@ -24,11 +24,8 @@ def create_app():
     # Llegeixo la configuració del config.py de l'arrel
     app.config.from_object('config.Config')
 
-    # Configuració de la base de dades
-    configure_db(app)
-
-    # Inicialitza el login manager
-    login_manager.init_app(app)
+    # Configuració dels plugins
+    configure_plugins(app)
     
     with app.app_context():
         from . import routes_main, routes_auth, routes_admin
