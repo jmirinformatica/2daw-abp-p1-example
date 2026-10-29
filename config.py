@@ -23,7 +23,10 @@ class Config:
 
     # paràmetre que farà servir SQLAlchemy per a connectar-se
     default_db = "sqlite:///" + basedir + "/sqlite/database.db"
-    SQLALCHEMY_DATABASE_URI = environ.get('SQLALCHEMY_DATABASE_URI', default_db)
+    sqlite_database_uri = environ.get('SQLALCHEMY_DATABASE_URI', default_db)
+
+    # si no hi és el valor a environment, fa servir SQLITE
+    SQLALCHEMY_DATABASE_URI = environ.get('SQLALCHEMY_DATABASE_URI', sqlite_database_uri)
 
     # mostre als logs les ordres SQL que s'executen
     SQLALCHEMY_ECHO = environ.get('DEBUG_TB_ENABLED', "true").lower() == "true"

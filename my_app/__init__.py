@@ -30,7 +30,7 @@ def create_app():
     app.config.from_object('config.Config')
 
     # Configuració de la base de dades
-    configure_db(app)
+    configure_plugins(app)
     
     with app.app_context():
         from . import routes_main, routes_auth, routes_admin
