@@ -23,12 +23,12 @@
 		{% endfor %}
 	</table>
 	<div class="pagination">
-		{% if items_with_stores.has_prev %}
-			<a href="{{ url_for('main_bp.items_list', page=items_with_stores.prev_num, search=request.args.get('search', '')) }}">Anterior</a>
+		{% if items.has_prev %}
+			<a href="{{ url_for('main_bp.items_list', page=items.prev_num, search=request.args.get('search', '')) }}">Anterior</a>
 		{% endif %}
-		<span>Pàgina {{ items_with_stores.page }} de {{ items_with_stores.pages }}</span>
-		{% if items_with_stores.has_next %}
-			<a href="{{ url_for('main_bp.items_list', page=items_with_stores.next_num, search=request.args.get('search', '')) }}">Següent</a>
+		<span>Pàgina {{ items.page }} de {{ items.pages }}</span>
+		{% if items.has_next %}
+			<a href="{{ url_for('main_bp.items_list', page=items.next_num, search=request.args.get('search', '')) }}">Següent</a>
 		{% endif %}
 	</div>
 	{% if current_user.is_editor() %}
