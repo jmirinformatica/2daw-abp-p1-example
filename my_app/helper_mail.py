@@ -38,9 +38,11 @@ class MailManager:
         context = ssl.create_default_context()
         with smtplib.SMTP(self.smtp_server, self.smtp_port) as server:
             server.ehlo()  # Can be omitted
-            server.starttls(context=context)
+            # server.starttls(context=context)
+            # TODO: set as parameter if TLS is enabled or not
             server.ehlo()  # Can be omitted
-            server.login(self.sender_addr, self.sender_password)
+            #server.login(self.sender_addr, self.sender_password)
+            # TODO: set as parameter if auth is enabled or not
 
             msg = EmailMessage()
             msg['From'] = formataddr((self.sender_name, self.sender_addr))
